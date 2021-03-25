@@ -1,0 +1,12 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "ServerWrapper",
+            "request": "launch",
+            "program": "main.dart",
+            "type": "dart",
+            "console": "terminal"
+        }
+    ]
+}
