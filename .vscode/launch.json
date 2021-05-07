@@ -4,7 +4,7 @@
         {
             "name": "ServerWrapper",
             "request": "launch",
-            "program": "main.dart",
+            "program": "./bin/main.dart",
             "type": "dart",
             "console": "terminal"
         }
