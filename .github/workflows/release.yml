@@ -55,20 +55,20 @@ jobs:
         run: dart pub get
 
       - name: Build Launcher
-        run: dart compile exe bin/main.dart -o ${{ matrix.build_exe }
+        run: dart compile exe bin/main.dart -o ${{ matrix.build_exe }}
 
       - name: Upload a Build Artifact
         uses: actions/upload-artifact@v2.2.0
         with:
           name: ServerWrapper ${{ matrix.build_os }}
-          path: ${{ matrix.build_exe }
+          path: ${{ matrix.build_exe }}
           if-no-files-found: error
           retention-days: 30
 
       - name: Create release archive
         uses: papeloto/action-zip@v1
         with:
-          files: ${{ matrix.build_exe }
+          files: ${{ matrix.build_exe }}
           dest: build.zip
 
       - name: Upload release
