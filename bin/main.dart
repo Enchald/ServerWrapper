@@ -29,17 +29,11 @@ void main() async {
     '-Dminecraft.api.services.host=${config.authlibLink}',
     '-jar',
     config.jar,
-    // config.params,
+    ...config.params,
   ]);
 
   // ignore_for_file: unawaited_futures
   process.stdin.addStream(stdin);
   stdout.addStream(process.stdout);
   stderr.addStream(process.stderr);
-
-  // Я ебал, меня сосали
-  // Либо у них эта хрень забагованная, либо я нихуя не понимаю как это работает
-  // await process.exitCode;
-  // print('Press any key to close');
-  // stdin.readLineSync();
 }
