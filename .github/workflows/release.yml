@@ -1,0 +1,87 @@
+# This workflow uses actions that are not certified by GitHub.
+# They are provided by a third-party and are governed by
+# separate terms of service, privacy policy, and support
+# documentation.
+
+name: Release Build
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Get version value, set to env
+        run: echo "PACKAGE_VERSION=v$(awk '/version:/ {print $2}' pubspec.yaml)" >> $GITHUB_ENV
+
+      - name: Create release
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: ${{ env.PACKAGE_VERSION }}
+          release_name: Aurora ServerWrapper ${{ env.PACKAGE_VERSION }}
+
+    outputs:
+      upload_url: ${{ steps.create_release.outputs.upload_url }}
+
+  build:
+    runs-on: ${{ matrix.os }}
+    needs: release
+
+    strategy:
+      matrix:
+        include:
+          - os: ubuntu-latest
+            build_os: "Linux"
+            build_exe: "server_wrapper"
+          - os: windows-latest
+            build_os: "Windows"
+            build_exe: "server_wrapper.exe"
+          - os: macos-latest
+            build_os: "MacOS"
+            build_exe: "server_wrapper"
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Setup Dart environment
+      - uses: dart-lang/setup-dart@v1
+        with:
+          sdk: stable
+
+      - name: Install dependencies
+        run: dart pub get
+
+      - name: Build Launcher
+      - run: dart compile exe bin/main.dart -o ${{ matrix.build_exe }
+
+      - name: Upload a Build Artifact
+        uses: actions/upload-artifact@v2.2.0
+        with:
+          name: ServerWrapper ${{ matrix.build_os }}
+          path: ${{ matrix.build_exe }
+          if-no-files-found: error
+          retention-days: 30
+
+      - name: Create release archive
+        uses: papeloto/action-zip@v1
+        with:
+          files: ${{ matrix.build_exe }
+          dest: build.zip
+
+      - name: Upload release
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ needs.release.outputs.upload_url }}
+          asset_path: ./build.zip
+          asset_name: ServerWrapper_${{ matrix.build_os }}.zip
+          asset_content_type: application/zip
