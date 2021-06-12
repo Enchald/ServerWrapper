@@ -4,23 +4,19 @@ import 'config.dart';
 import 'log.dart';
 
 void main() async {
-  print(
-    cyan('Aurora ServerWrapper ') +
-    'v' +
-    yellow('0.1') +
-    green('\nCopyright (C) 2021 ') +
-    blue('AuroraTeam (https://github.com/AuroraTeam)')
-  );
+  print(cyan('Aurora ServerWrapper ') +
+      'v' +
+      yellow('0.1') +
+      green('\nCopyright (C) 2021 ') +
+      blue('AuroraTeam (https://github.com/AuroraTeam)'));
 
-  Config config;
-  try {
-    var cfgFile = File('asw_config.json').readAsStringSync();
-    config = Config.fromJson(jsonDecode(cfgFile));
-  } on FileSystemException {
+  var configFile = File('asw_config.json');
+  if (!await configFile.exists()) {
     print(yellow('Config file not found! Create default'));
-    config = Config.getDefault();
-    File('asw_config.json').writeAsStringSync(JsonEncoder.withIndent('  ').convert(config.toJson()));
+    await configFile.writeAsString(
+        JsonEncoder.withIndent('  ').convert(Config.getDefault().toJson()));
   }
+  var config = Config.fromJson(jsonDecode(await configFile.readAsString()));
 
   var process = await Process.start('java', [
     '-Dminecraft.api.auth.host=${config.authlibLink}',

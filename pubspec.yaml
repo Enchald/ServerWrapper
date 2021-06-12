@@ -1,7 +1,7 @@
 name: aurora_serverwrapper
 description: Wrapper for minecraft server used with Aurora Launcher.
 version: 0.1.0
-homepage: https://aurora-team.ru
+homepage: https://aurora-launcher.ru
 
 environment:
   sdk: ">=2.12.0 <3.0.0"

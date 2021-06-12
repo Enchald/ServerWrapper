@@ -8,13 +8,12 @@ class Config {
 
   Config(this.authlibLink, this.jar, this.params);
 
-  Config.getDefault(): this(defaultAuthlibLink, defaultJar, []);
+  Config.getDefault() : this(defaultAuthlibLink, defaultJar, []);
 
-  Config.fromJson(Map<String, dynamic> json): this(json['authlibLink'] ?? defaultAuthlibLink, json['jar'] ?? defaultJar, json['params'] ?? []);
+  Config.fromJson(Map<String, dynamic> json)
+      : this(json['authlibLink'] ?? defaultAuthlibLink,
+            json['jar'] ?? defaultJar, json['params'] ?? []);
 
-  Map<String, dynamic> toJson() => {
-    'authlibLink': authlibLink,
-    'jar': jar,
-    'params' : params
-  };
+  Map<String, dynamic> toJson() =>
+      {'authlibLink': authlibLink, 'jar': jar, 'params': params};
 }
