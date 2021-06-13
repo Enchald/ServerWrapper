@@ -4,7 +4,7 @@
 На данный момент сервер-враппер, как остальные утилиты лаунчера, находится в разработке, но Вы можете помочь мне с кодом или ведением задач. Или например предлагать свои идеи в раздел [Issues](https://github.com/AuroraTeam/ServerWrapper/issues).  
 А также Вы можете поддержать меня материально:
 
-- [Через QIWI](https://qiwi.com/p/JOCAT)
+- [Через QIWI](https://qiwi.com/n/JOCAT)
 - [Через Donation Alerts](https://www.donationalerts.com/r/jocat)
 
 ## Мы в Discord
